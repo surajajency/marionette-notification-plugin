@@ -5,7 +5,7 @@ module.exports = (grunt) ->
 
 	require("load-grunt-tasks") grunt
 
-	vendors = "underscore jquery backbone backbone.marionette".split(" ")
+	vendors = "underscore jquery backbone backbone.marionette mustache".split(" ")
 	bundleExternal = vendors.concat ["./ajency.marionette.core.coffee"]
 
 	grunt.initConfig
