@@ -1,7 +1,3 @@
-_ = require 'underscore'
-Marionette = require 'backbone.marionette'
-Backbone = require 'backbone'
-
 class AjNotificationModule extends Marionette.Module
 
 	initialize : (options = {})->
@@ -15,6 +11,4 @@ class AjNotificationModule extends Marionette.Module
 				objectId : 23
 				posttype : 'job'
 				style : 'default'
-
-module.exports = AjNotificationModule
 

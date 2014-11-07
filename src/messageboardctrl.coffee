@@ -1,8 +1,3 @@
-Backbone = require 'backbone'
-_ = require 'underscore'
-Marionette = require 'backbone.marionette'
-NotificationView = require '../views/notificationview.coffee'
-
 class MessageBoardCtrl extends Marionette.Controller
 
 	initialize : (options = {})->
@@ -12,4 +7,3 @@ class MessageBoardCtrl extends Marionette.Controller
 # message board ctrl
 Marionette._ctrl['MessageBoardCtrl'] = MessageBoardCtrl
 
-module.exports = MessageBoardCtrl

@@ -1,5 +1,3 @@
-Backbone = require 'backbone'
-_ = require 'underscore'
 class NotificationModel extends Backbone.Model
 
 	defaults : ->
@@ -8,5 +6,3 @@ class NotificationModel extends Backbone.Model
 
 	save : ->
 		console.log 'Save locally'
-
-module.exports = NotificationModel

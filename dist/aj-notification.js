@@ -1,169 +1,127 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var AjNotificationModule, Backbone, Marionette, MessageBoardCtrl, NotificationModel, _,
-  __hasProp = {}.hasOwnProperty,
+var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-_ = require('underscore');
-
-Marionette = require('backbone.marionette');
-
-Backbone = require('backbone');
-
-NotificationModel = require('./entities/notificationmodel.coffee');
-
-MessageBoardCtrl = require('./controllers/messageboardctrl.coffee');
-
-AjNotificationModule = (function(_super) {
-  __extends(AjNotificationModule, _super);
-
-  function AjNotificationModule() {
-    return AjNotificationModule.__super__.constructor.apply(this, arguments);
-  }
-
-  AjNotificationModule.prototype.initialize = function(options) {
-    if (options == null) {
-      options = {};
-    }
-    return AjNotificationModule.__super__.initialize.call(this, options);
-  };
-
-  AjNotificationModule.prototype.onStart = function() {
-    return Marionette.run({
-      region: this.app.sideBar,
-      ctrl: 'MessageBoardCtrl',
-      args: []
+(function(root, factory) {
+  var Backbone, Marionette, _;
+  Backbone = void 0;
+  Marionette = void 0;
+  _ = void 0;
+  if (typeof define === "function" && define.amd) {
+    return define(["backbone", "underscore", "backbone.marionette"], function(Backbone, _) {
+      return root.AjNotificationModule = factory(root, Backbone, _);
     });
-  };
-
-  AjNotificationModule.prototype.onStop = function() {};
-
-  return AjNotificationModule;
-
-})(Marionette.Module);
-
-module.exports = AjNotificationModule;
-
-
-
-},{"./controllers/messageboardctrl.coffee":2,"./entities/notificationmodel.coffee":3,"backbone":"backbone","backbone.marionette":"backbone.marionette","underscore":"underscore"}],2:[function(require,module,exports){
-var Backbone, Marionette, MessageBoardCtrl, NotificationView, _,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-Backbone = require('backbone');
-
-_ = require('underscore');
-
-Marionette = require('backbone.marionette');
-
-NotificationView = require('../views/notificationview.coffee');
-
-MessageBoardCtrl = (function(_super) {
-  __extends(MessageBoardCtrl, _super);
-
-  function MessageBoardCtrl() {
-    return MessageBoardCtrl.__super__.constructor.apply(this, arguments);
+  } else if (typeof exports !== "undefined") {
+    Backbone = require("backbone");
+    _ = require("underscore");
+    Marionette = require("backbone.marionette");
+    return module.exports = factory(root, Backbone, _, Marionette);
+  } else {
+    return root.AjNotificationModule = factory(root, root.Backbone, root._, root.Marionette);
   }
+})(this, function(root, Backbone, _, Marionette) {
+  "use strict";
+  var AjNotificationModule, IView, MessageBoardCtrl, NotificationModel, NotificationView;
+  IView = (function(_super) {
+    __extends(IView, _super);
 
-  MessageBoardCtrl.prototype.initialize = function(options) {
-    if (options == null) {
-      options = {};
+    function IView() {
+      return IView.__super__.constructor.apply(this, arguments);
     }
-    return options.region.show(new NotificationView({
-      'template': '<h2>New templae</h2>'
-    }));
-  };
 
-  return MessageBoardCtrl;
+    IView.prototype.template = '{{ id }}<br /><div>{{ name }}</div>';
 
-})(Marionette.Controller);
+    IView.prototype.className = 'single-notification';
 
-Marionette._ctrl['MessageBoardCtrl'] = MessageBoardCtrl;
+    return IView;
 
-module.exports = MessageBoardCtrl;
+  })(Marionette.ItemView);
+  NotificationView = (function(_super) {
+    __extends(NotificationView, _super);
 
+    function NotificationView() {
+      return NotificationView.__super__.constructor.apply(this, arguments);
+    }
 
+    NotificationView.prototype.template = 'Some container needed<ul class="notification-container"></ul>';
 
-},{"../views/notificationview.coffee":4,"backbone":"backbone","backbone.marionette":"backbone.marionette","underscore":"underscore"}],3:[function(require,module,exports){
-var Backbone, NotificationModel, _,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+    NotificationView.prototype.className = 'notification-class';
 
-Backbone = require('backbone');
+    NotificationView.prototype.childView = IView;
 
-_ = require('underscore');
+    NotificationView.prototype.childViewContainer = '.notification-container';
 
-NotificationModel = (function(_super) {
-  __extends(NotificationModel, _super);
+    return NotificationView;
 
-  function NotificationModel() {
-    return NotificationModel.__super__.constructor.apply(this, arguments);
-  }
+  })(Marionette.CompositeView);
+  MessageBoardCtrl = (function(_super) {
+    __extends(MessageBoardCtrl, _super);
 
-  NotificationModel.prototype.defaults = function() {
-    return {
-      id: _.random(0, 100),
-      name: 'NotificationModel' + _.random(0, 100)
+    function MessageBoardCtrl() {
+      return MessageBoardCtrl.__super__.constructor.apply(this, arguments);
+    }
+
+    MessageBoardCtrl.prototype.initialize = function(options) {
+      if (options == null) {
+        options = {};
+      }
+      return options.region.show(new NotificationView({
+        'template': '<h2>New templae</h2>'
+      }));
     };
-  };
 
-  NotificationModel.prototype.save = function() {
-    return console.log('Save locally');
-  };
+    return MessageBoardCtrl;
 
-  return NotificationModel;
+  })(Marionette.Controller);
+  Marionette._ctrl['MessageBoardCtrl'] = MessageBoardCtrl;
+  NotificationModel = (function(_super) {
+    __extends(NotificationModel, _super);
 
-})(Backbone.Model);
+    function NotificationModel() {
+      return NotificationModel.__super__.constructor.apply(this, arguments);
+    }
 
-module.exports = NotificationModel;
+    NotificationModel.prototype.defaults = function() {
+      return {
+        id: _.random(0, 100),
+        name: 'NotificationModel' + _.random(0, 100)
+      };
+    };
 
+    NotificationModel.prototype.save = function() {
+      return console.log('Save locally');
+    };
 
+    return NotificationModel;
 
-},{"backbone":"backbone","underscore":"underscore"}],4:[function(require,module,exports){
-var IView, Marionette, NotificationView, _,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  })(Backbone.Model);
+  AjNotificationModule = (function(_super) {
+    __extends(AjNotificationModule, _super);
 
-Marionette = require('backbone.marionette');
+    function AjNotificationModule() {
+      return AjNotificationModule.__super__.constructor.apply(this, arguments);
+    }
 
-_ = require('underscore');
+    AjNotificationModule.prototype.initialize = function(options) {
+      if (options == null) {
+        options = {};
+      }
+      return AjNotificationModule.__super__.initialize.call(this, options);
+    };
 
-IView = (function(_super) {
-  __extends(IView, _super);
+    AjNotificationModule.prototype.onStart = function() {
+      return Marionette.run({
+        region: this.app.sideBar,
+        ctrl: 'MessageBoardCtrl',
+        args: {
+          objectId: 23,
+          posttype: 'job',
+          style: 'default'
+        }
+      });
+    };
 
-  function IView() {
-    return IView.__super__.constructor.apply(this, arguments);
-  }
+    return AjNotificationModule;
 
-  IView.prototype.template = '{{ id }}<br /><div>{{ name }}</div>';
-
-  IView.prototype.className = 'single-notification';
-
-  return IView;
-
-})(Marionette.ItemView);
-
-NotificationView = (function(_super) {
-  __extends(NotificationView, _super);
-
-  function NotificationView() {
-    return NotificationView.__super__.constructor.apply(this, arguments);
-  }
-
-  NotificationView.prototype.template = 'Some container needed<ul class="notification-container"></ul>';
-
-  NotificationView.prototype.className = 'notification-class';
-
-  NotificationView.prototype.childView = IView;
-
-  NotificationView.prototype.childViewContainer = '.notification-container';
-
-  return NotificationView;
-
-})(Marionette.CompositeView);
-
-module.exports = NotificationView;
-
-
-
-},{"backbone.marionette":"backbone.marionette","underscore":"underscore"}]},{},[1]);
+  })(Marionette.Module);
+  return AjNotificationModule;
+});
