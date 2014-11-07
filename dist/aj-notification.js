@@ -108,18 +108,6 @@ var __hasProp = {}.hasOwnProperty,
       return AjNotificationModule.__super__.initialize.call(this, options);
     };
 
-    AjNotificationModule.prototype.onStart = function() {
-      return Marionette.run({
-        region: this.app.sideBar,
-        ctrl: 'MessageBoardCtrl',
-        args: {
-          objectId: 23,
-          posttype: 'job',
-          style: 'default'
-        }
-      });
-    };
-
     return AjNotificationModule;
 
   })(Marionette.Module);
