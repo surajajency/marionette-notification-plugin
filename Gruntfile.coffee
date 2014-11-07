@@ -56,9 +56,6 @@ module.exports = (grunt) ->
 				files: ["example/index.html"]
 				tasks: ["targethtml:dev"]
 
-			assets:
-				files: ["assets/**/*"]
-
 		connect:
 			server:
 				options:
@@ -68,76 +65,15 @@ module.exports = (grunt) ->
 					livereload: true
 
 	grunt.registerTask "builddev", [
-		"browserify:app"
-		"browserify:vendors"
 		"targethtml:dev"
 	]
 	grunt.registerTask "buildprod", [
-		"browserify:bundle"
 		"uglify"
-		#"targethtml:prod"
 	]
 	grunt.registerTask "run", [
+		"builddev"
 		"coffee:app"
 		"preprocess:dev"
 		"connect"
 		"watch"
 	]
-
-
-
-		# browserify:
-
-		# 	# just the app
-		# 	app:
-		# 		src: "src/application.coffee"
-		# 		dest: "application.js"
-		# 		options:
-		# 			debug: true
-		# 			extensions: [
-		# 				".coffee"
-		# 				".hbs"
-		# 			]
-		# 			transform: [
-		# 				"coffeeify"
-		# 				"hbsfy"
-		# 			]
-		# 			external: all
-
-		# 	ajencyCore :
-		# 		src: "src/ajency.marionette.core.coffee"
-		# 		dest: "ajency.marionette.core.js"
-		# 		options:
-		# 			debug: true
-		# 			extensions: [
-		# 				".coffee"
-		# 			]
-		# 			transform: [
-		# 				"coffeeify"
-		# 			]
-		# 			external: vendors
-
-
-		# 	# just vendors
-		# 	vendors:
-		# 		files:
-		# 			"example/dev/library.js": []
-		# 		options:
-		# 			require: vendors
-
-
-		# 	# bundle all in one
-		# 	bundle:
-		# 		src: "src/aj-notification.coffee"
-		# 		dest: "dist/aj-notification.js"
-		# 		options:
-		# 			debug : true
-		# 			extensions: [
-		# 				".coffee"
-		# 				".hbs"
-		# 			]
-		# 			transform: [
-		# 				"coffeeify"
-		# 				"hbsfy"
-		# 			]
-		# 			external: bundleExternal
